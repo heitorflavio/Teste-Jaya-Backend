@@ -14,11 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['prefix' => 'v1'], function () {
+Route::group(['prefix' => 'rest'], function () {
    Route::get('/payments', [App\Http\Controllers\PaymentsController::class,'index']);
    Route::post('/payments', [App\Http\Controllers\PaymentsController::class,'store']);
-   Route::get('/payments/{payments}', [App\Http\Controllers\PaymentsController::class,'show']);
-   Route::patch('/payment/{payments}', [App\Http\Controllers\PaymentsController::class,'update']);
-   Route::delete('/payment/{payments}', [App\Http\Controllers\PaymentsController::class,'destroy']);
+   Route::get('/payments/{id}', [App\Http\Controllers\PaymentsController::class,'show']);
+   Route::patch('/payment/{id}', [App\Http\Controllers\PaymentsController::class,'update']);
+   Route::delete('/payments/{id}', [App\Http\Controllers\PaymentsController::class,'destroy']);
 });
-

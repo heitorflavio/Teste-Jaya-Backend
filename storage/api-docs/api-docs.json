@@ -1,0 +1,214 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Payments API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/rest/payments": {
+            "get": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "List all payments",
+                "description": "Returns a list of all payments paginated",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Create a new payment",
+                "description": "Creates a new payment record",
+                "operationId": "store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "transaction_amount",
+                                    "installments",
+                                    "token",
+                                    "payment_method_id",
+                                    "payer"
+                                ],
+                                "properties": {
+                                    "transaction_amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 245.9
+                                    },
+                                    "installments": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "example": "ae4e50b2a8f3h6d932c3afg5d6e745g9"
+                                    },
+                                    "payment_method_id": {
+                                        "type": "string",
+                                        "example": "master"
+                                    },
+                                    "payer": {
+                                        "required": [
+                                            "email",
+                                            "identification"
+                                        ],
+                                        "properties": {
+                                            "email": {
+                                                "type": "string",
+                                                "format": "email",
+                                                "example": "example_random@gmail.com"
+                                            },
+                                            "identification": {
+                                                "required": [
+                                                    "type",
+                                                    "number"
+                                                ],
+                                                "properties": {
+                                                    "type": {
+                                                        "type": "string",
+                                                        "example": "CPF"
+                                                    },
+                                                    "number": {
+                                                        "type": "string",
+                                                        "example": "12345678909"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                }
+            }
+        },
+        "/api/rest/payments/{id}": {
+            "get": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Display the specified payment",
+                "description": "Displays the details of a specific payment",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the payment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Delete the specified payment",
+                "description": "Deletes a specific payment record",
+                "operationId": "destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the payment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/api/rest/payment/{id}": {
+            "patch": {
+                "tags": [
+                    "Payments"
+                ],
+                "summary": "Update the specified payment",
+                "description": "Updates the details of a specific payment, example: PAID, CANCELED, PENDING",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the payment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "status"
+                                ],
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "example": "PAID"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                }
+            }
+        }
+    }
+}
