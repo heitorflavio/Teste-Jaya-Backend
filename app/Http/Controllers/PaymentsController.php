@@ -52,20 +52,17 @@ class PaymentsController extends Controller
         return new PaymentsResource($payments);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Payments $payments)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdatePaymentsRequest $request, Payments $payments)
     {
-        //
+        $data = $request->validated();
+
+        $payments->update($data);
+        $payments->load('payer');
+        return new PaymentsResource($payments);
     }
 
     /**
@@ -73,6 +70,9 @@ class PaymentsController extends Controller
      */
     public function destroy(Payments $payments)
     {
-        //
+        $payments->delete();
+        return response()->json([
+            'message' => 'Payment deleted successfully',
+        ], 204);
     }
 }

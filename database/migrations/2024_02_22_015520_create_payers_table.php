@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('payers', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('payment_id')->references('id')->on('payments');
+            $table->foreignUuid('payment_id');
             $table->string('email');
             $table->string('entity_type')->default('individual');
             $table->string('type')->default('customer');
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('identification_number');
             $table->timestamps();
 
+            $table->foreign('payment_id')->references('id')->on('payments')->cascadeOnDelete();
         });
     }
 
