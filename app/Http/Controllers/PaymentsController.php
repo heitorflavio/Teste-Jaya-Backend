@@ -28,6 +28,7 @@ class PaymentsController extends Controller
      *      operationId="index",
      *      tags={"Payments"},
      *      summary="List all payments",
+     *      security={{"bearerAuth": {}}},
      *      description="Returns a list of all payments paginated",
      *      @OA\Response(
      *          response=200,

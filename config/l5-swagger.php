@@ -153,6 +153,16 @@ return [
         */
         'securityDefinitions' => [
             'securitySchemes' => [
+
+                'bearer_token' => [ // Unique name of security
+                    'type' => 'http', // Valid values are "basic", "apiKey" or "oauth2".
+                    'scheme' => 'bearer',
+                    'description' => 'Enter token in format (Bearer <token>)',
+                    'name' => 'Authorization', // header or query parameter name
+                    'in' => 'header', // header, query
+
+                 ],
+
                 /*
                  * Examples of Security schemes
                 */
@@ -197,8 +207,7 @@ return [
                     'name' => 'Authorization', // The name of the header or query parameter to be used.
                     'in' => 'header', // The location of the API key. Valid values are "query" or "header".
                 ],
-                */
-            ],
+                */],
             'security' => [
                 /*
                  * Examples of Securities
@@ -211,8 +220,7 @@ return [
                     ],
 
                     'passport' => []
-                    */
-                ],
+                    */],
             ],
         ],
 
