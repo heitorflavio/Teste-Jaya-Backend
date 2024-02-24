@@ -113,6 +113,25 @@ services:
             - sail
         ports:
             - 8081:80
+    migrations:
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP}'
+        image: sail-8.3/migrations
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - sail
+        depends_on:
+            - mysql
+            - redis
+            - meilisearch
+            - mailpit
+            - selenium
 networks:
     sail:
         driver: bridge
