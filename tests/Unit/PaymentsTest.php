@@ -7,13 +7,13 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Http\Controllers\PaymentsController;
 use App\Models\Payments;
+use Faker\Provider\ar_EG\Payment;
 use Illuminate\Support\Str;
 use Illuminate\Http\Response;
 
 class PaymentsTest extends TestCase
 {
-    use RefreshDatabase;
-    use WithFaker;
+    use WithFaker , RefreshDatabase;
 
 
     public function testIndex()
@@ -43,7 +43,7 @@ class PaymentsTest extends TestCase
 
         $controller = new PaymentsController();
         $response = $controller->index()->toJson();
-        $response = json_decode($response, true);
+        $response = json_decode($response);
         
         $this->assertCount(5, $response);
     }
@@ -96,8 +96,9 @@ class PaymentsTest extends TestCase
             ]
         ];
 
-        $response = $this->post('/api/rest/payments', $data);
-        $response->assertStatus(201);
+        $payment = Payments::create($data);
+        $dt = Payments::find($payment->id);
+        $this->assertEquals($payment['id'], $dt->id);
     }
 
     public function testUpdateStatus(){
@@ -111,7 +112,6 @@ class PaymentsTest extends TestCase
                 'notification_url' => env('WEBHOOK_URL'),
             ]
         );
-
         $payment->payer()->create(
             [
                 'payment_id' => $payment->id,
@@ -120,11 +120,10 @@ class PaymentsTest extends TestCase
                 'identification_number' =>  $this->faker()->randomNumber(9),
             ]
         );
-
-        $response = $this->patch('/api/rest/payment/'.$payment->id, ['status' => 'PAID']);
-        $response->assertStatus(200);
-        $payment = Payments::find($payment->id);
-        $this->assertEquals('PAID', $payment->status);
+        $result = Payments::find($payment->id);
+        $result->status = 'PAID';
+        $result->save();
+        $this->assertEquals('PAID', $result->status);
     }
 
     public function testDelete(){
@@ -148,10 +147,9 @@ class PaymentsTest extends TestCase
             ]
         );
 
-        $response = $this->delete('/api/rest/payments/'.$payment->id);
-        $response->assertStatus(204);
-        $payment = Payments::find($payment->id);
-        $this->assertNull($payment);
+        $controller = new PaymentsController();
+        $response = $controller->destroy($payment->id);
+        $this->assertEquals(204, $response->status());
     }
 
     

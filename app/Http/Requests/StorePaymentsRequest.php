@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use App\Rules\Cpf;
 
 class StorePaymentsRequest extends FormRequest
 {
@@ -23,6 +24,20 @@ class StorePaymentsRequest extends FormRequest
      */
     public function rules(): array
     {
+        $type = $this->input('payer.identification.type');
+
+        if ($type === 'CPF') {
+            return [
+                'transaction_amount' => 'required|numeric|min:1',
+                'installments' => 'required|integer|min:1',
+                'token' => 'required|string|unique:payments,token',
+                'payment_method_id' => 'required|string',
+                'payer.email' => 'required|email',
+                'payer.identification.type' => 'required|string',
+                'payer.identification.number' => ['required', 'string', new Cpf],
+            ];
+        }
+
         return [
             'transaction_amount' => 'required|numeric|min:1',
             'installments' => 'required|integer|min:1',

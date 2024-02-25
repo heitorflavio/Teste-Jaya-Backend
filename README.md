@@ -129,3 +129,14 @@ Para acessar a documentação do Swagger, siga os exemplos abaixo:
   ou
 
     [http://localhost:8000/api/documentation](http://localhost:8000/api/documentation)
+
+
+## Testes
+
+Para executar os testes, execute o comando abaixo:
+
+```bash
+./vendor/bin/sail artisan test
+```
+
+
