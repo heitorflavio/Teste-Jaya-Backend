@@ -139,4 +139,9 @@ Para executar os testes, execute o comando abaixo:
 ./vendor/bin/sail artisan test
 ```
 
+## Acessando o Banco de Dados
+
+Para acessar o banco de dados, acesse a rota `domain/phpmyadmin`:
+
+- [http://localhost/phpmyadmin](http://localhost/phpmyadmin)
 
