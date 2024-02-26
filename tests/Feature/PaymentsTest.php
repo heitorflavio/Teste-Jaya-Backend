@@ -60,7 +60,7 @@ class PaymentsTest extends TestCase
                 'email' => 'test@example.com',
                 'identification' => [
                     'type' => 'CPF',
-                    'number' => '12345678901'
+                    'number' => '01896979629'
                 ]
             ]
         ];

@@ -15,15 +15,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => 'rest', 'middleware' => 'auth:sanctum'], function () {
-   Route::get('/payments', [App\Http\Controllers\PaymentsController::class,'index']);
-   Route::post('/payments', [App\Http\Controllers\PaymentsController::class,'store']);
-   Route::get('/payments/{id}', [App\Http\Controllers\PaymentsController::class,'show']);
-   Route::patch('/payment/{id}', [App\Http\Controllers\PaymentsController::class,'update']);
-   Route::delete('/payments/{id}', [App\Http\Controllers\PaymentsController::class,'destroy']);
+   Route::controller(App\Http\Controllers\PaymentsController::class)->group(function () {
+      Route::get('/payments', 'index');
+      Route::post('/payments', 'store');
+      Route::get('/payments/{id}', 'show');
+      Route::patch('/payment/{id}', 'update');
+      Route::delete('/payments/{id}', 'destroy');
+   });
 });
 
 Route::group(['prefix' => 'rest'], function () {
-   Route::post('/login', [App\Http\Controllers\AuthController::class,'login']);
-   Route::post('/logout', [App\Http\Controllers\AuthController::class,'logout']);
-   Route::get('/user', [App\Http\Controllers\AuthController::class,'user']);
+   Route::controller(App\Http\Controllers\AuthController::class)->group(function () {
+      Route::post('/login', 'login');
+      Route::post('/logout', 'logout');
+      Route::get('/user', 'user');
+   });
 });
